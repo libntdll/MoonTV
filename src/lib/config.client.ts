@@ -38,7 +38,6 @@ export async function getAvailableApiSitesClient(): Promise<ApiSite[]> {
       detail: site.detail,
     }));
   } catch (error) {
-    console.error('Failed to fetch available API sites:', error);
     return [];
   }
 }

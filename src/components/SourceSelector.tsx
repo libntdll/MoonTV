@@ -42,7 +42,6 @@ export default function SourceSelector({
           const sites = await getAvailableApiSitesClient();
           setAvailableSources(sites.map(site => ({ key: site.key, name: site.name })));
         } catch (error) {
-          console.error('Failed to load sources:', error);
           setAvailableSources([]); // 确保不会因为错误导致状态未更新
         } finally {
           setIsLoading(false);
@@ -129,7 +128,6 @@ export default function SourceSelector({
             onChange(validSources);
           }
         } catch (error) {
-          console.error('Failed to parse saved sources:', error);
         }
       }
 

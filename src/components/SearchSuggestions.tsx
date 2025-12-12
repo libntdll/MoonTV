@@ -63,7 +63,7 @@ export default function SearchSuggestions({
             if (parsed.suggestions && Array.isArray(parsed.suggestions)) {
               setSuggestions((prev) => [
                 ...prev,
-                ...parsed.suggestions.map((s: any) => ({
+                ...parsed.suggestions.map((s: { text: string }) => ({
                   text: s.text,
                 })),
               ]);

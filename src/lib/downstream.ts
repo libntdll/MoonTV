@@ -24,14 +24,16 @@ async function fetchWithTimeout(url: string, options: RequestInit, timeout = 300
   const timeoutId = setTimeout(() => controller.abort(), timeout);
   try {
     return await fetch(url, { ...options, signal: controller.signal });
-  } catch (error: any) {
+  } catch (error: unknown) {
     // 区分超时错误和网络错误
-    if (error.name === 'AbortError') {
+    const name = (error as { name?: string }).name;
+    const message = (error as { message?: string }).message;
+    if (name === 'AbortError') {
       throw new Error('请求超时');
-    } else if (error.message?.includes('Failed to fetch') || error.message?.includes('fetch failed') || error.message?.includes('NetworkError')) {
+    } else if (message?.includes('Failed to fetch') || message?.includes('fetch failed') || message?.includes('NetworkError')) {
       throw new Error('请求失败');
     } else {
-      throw new Error(`网络错误: ${error.message || '未知错误'}`);
+      throw new Error(`网络错误: ${message || '未知错误'}`);
     }
   } finally {
     clearTimeout(timeoutId);
